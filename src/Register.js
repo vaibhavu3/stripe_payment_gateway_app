@@ -3,6 +3,7 @@ import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icon
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import axios from './api/axios';
 import axios from "axios";
+import { Auth } from 'aws-amplify';
 
 
 const CUSTOMER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
@@ -84,6 +85,7 @@ const Register = () => {
         // If button enabled with JS hack
         const v1 = CUSTOMER_REGEX.test(customer);
         const v2 = PWD_REGEX.test(pwd);
+        const phone_number = "1234567890";
         if (!v1 || !v2) {
             setErrMsg("Invalid Entry");
             return;
@@ -92,8 +94,19 @@ const Register = () => {
         console.log(customer, pwd);
 
         try {
+            const { user } = await Auth.signUp({
+                email,
+                pwd,
+                attributes: {
+                    customer,          // optional
+                    phone_number: "1234567890",   // optional - E.164 number convention
+                    // other custom attributes 
+                }
+            });
+            console.log(user);
+            
             const response = await axios.post(CUSTOMER_REGISTER_URL,
-                JSON.stringify({ "customerName": customer, "password": pwd, "customerPhone": "1234567890", "customerEmail": email, "description": description }),
+                JSON.stringify({ "customerName": customer, "password": pwd, "customerPhone": phone_number, "customerEmail": email, "description": description }),
             );
             console.log(response);
             // console.log(response.accessToken);
