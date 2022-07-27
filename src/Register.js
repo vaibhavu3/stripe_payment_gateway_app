@@ -3,7 +3,9 @@ import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icon
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import axios from './api/axios';
 import axios from "axios";
-import { Auth } from 'aws-amplify';
+import { Amplify, Auth } from 'aws-amplify';
+import awsmobile from './aws-exports';
+Amplify.configure(awsmobile);
 
 
 const CUSTOMER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
@@ -104,7 +106,7 @@ const Register = () => {
                 }
             });
             console.log(user);
-            
+
             const response = await axios.post(CUSTOMER_REGISTER_URL,
                 JSON.stringify({ "customerName": customer, "password": pwd, "customerPhone": phone_number, "customerEmail": email, "description": description }),
             );
