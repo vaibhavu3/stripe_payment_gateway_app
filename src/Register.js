@@ -6,7 +6,9 @@ import axios from "axios";
 
 
 const CUSTOMER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
+const DESCRIPTION_REGEX = /^[A-Za-z][A-z0-9-_]{3,20}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+const EMAIL_REGEX = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/;
 const CUSTOMER_REGISTER_URL = 'https://x5xlxm3xnl.execute-api.us-east-1.amazonaws.com/v1/customer/create';
 
 const Register = () => {
@@ -16,6 +18,14 @@ const Register = () => {
     const [customer, setCustomer] = useState('');
     const [validCustomerName, setValidCustomerName] = useState(false);
     const [customerFocus, setCustomerFocus] = useState(false);
+
+    const [email, setEmail] = useState('');
+    const [validEmail, setValidEmail] = useState(false);
+    const [emailFocus, setEmailFocus] = useState(false);
+
+    const [description, setDesciption] = useState('');
+    const [validDescription, setValidDescription] = useState(false);
+    const [descriptionFocus, setDescriptionFocus] = useState(false);
 
     const [pwd, setPwd] = useState('');
     const [validPwd, setValidPwd] = useState(false);
@@ -41,6 +51,20 @@ const Register = () => {
     }, [customer])
 
     useEffect(() => {
+        const result = EMAIL_REGEX.test(email);
+        console.log(result);
+        console.log(email);
+        setValidEmail(result);
+    }, [email])
+
+    useEffect(() => {
+        const result = DESCRIPTION_REGEX.test(description);
+        console.log(result);
+        console.log(description);
+        setValidDescription(result);
+    }, [description])
+
+    useEffect(() => {
         const result = PWD_REGEX.test(pwd);
         console.log(result);
         console.log(pwd);
@@ -51,12 +75,12 @@ const Register = () => {
 
     useEffect(() => {
         setErrMsg('');
-    }, [customer, pwd, matchPwd])
+    }, [customer, email, description, pwd, matchPwd])
 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
         // If button enabled with JS hack
         const v1 = CUSTOMER_REGEX.test(customer);
         const v2 = PWD_REGEX.test(pwd);
@@ -69,7 +93,7 @@ const Register = () => {
 
         try {
             const response = await axios.post(CUSTOMER_REGISTER_URL,
-                JSON.stringify({ "customerName": customer, "password": pwd, "customerPhone": "1234567890", "customerEmail": "test@abc.com", "description": "test" }),
+                JSON.stringify({ "customerName": customer, "password": pwd, "customerPhone": "1234567890", "customerEmail": email, "description": description }),
             );
             console.log(response);
             // console.log(response.accessToken);
@@ -133,6 +157,60 @@ const Register = () => {
                             Must begin with a letter.<br />
                             Letters, numbers, underscores, hyphens allowed.
                         </p>
+
+
+                        <label htmlFor="email">
+                            Email:
+                            <span className={validEmail ? "valid" : "hide"}>
+                                <FontAwesomeIcon icon={faCheck} />
+                            </span>
+                            <span className={validEmail || !email ? "hide" : "invalid"}>
+                                <FontAwesomeIcon icon={faTimes} />
+                            </span>
+                        </label>
+                        <input
+                            type="text"
+                            id="email"
+                            autoComplete="off"
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                            aria-invalid={validEmail ? "false" : "true"}
+                            aria-describedby="emailnote"
+                            onFocus={() => setEmailFocus(true)}
+                            onBlur={() => setEmailFocus(false)}
+                        />
+                        <p id="emailnote" className={emailFocus && email && !validEmail ? "instructions" : "offscreen"}>
+                            <FontAwesomeIcon icon={faInfoCircle} />
+                            Please enter a valid email address.<br />
+                            It should be in abc@xyz.com.<br />
+                        </p>
+
+
+                        <label htmlFor="description">
+                            Description:
+                            <span className={validDescription ? "valid" : "hide"}>
+                                <FontAwesomeIcon icon={faCheck} />
+                            </span>
+                            <span className={validDescription || !description ? "hide" : "invalid"}>
+                                <FontAwesomeIcon icon={faTimes} />
+                            </span>
+                        </label>
+                        <input
+                            type="text"
+                            id="description"
+                            onChange={(e) => setDesciption(e.target.value)}
+                            required
+                            aria-invalid={validDescription ? "false" : "true"}
+                            aria-describedby="descriptionnote"
+                            onFocus={() => setDescriptionFocus(true)}
+                            onBlur={() => setDescriptionFocus(false)}
+                        />
+                        <p id="descriptionnote" className={descriptionFocus && description && !validDescription ? "instructions" : "offscreen"}>
+                            <FontAwesomeIcon icon={faInfoCircle} />
+                            4 to 20 characters.<br />
+                            Please enter valid description.<br />
+                        </p>
+
 
 
                         <label htmlFor="password">
