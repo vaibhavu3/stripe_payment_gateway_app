@@ -1,0 +1,20 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-amplify74e1710e72e34-staging-64820-authRole",
+      "UnauthRoleArn": "arn:aws:iam::238026915774:role/amplify-amplify74e1710e72e34-staging-64820-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::238026915774:role/amplify-amplify74e1710e72e34-staging-64820-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-amplify74e1710e72e34-staging-64820-deployment",
+      "UnauthRoleName": "amplify-amplify74e1710e72e34-staging-64820-unauthRole",
+      "StackName": "amplify-amplify74e1710e72e34-staging-64820",
+      "StackId": "arn:aws:cloudformation:us-east-1:238026915774:stack/amplify-amplify74e1710e72e34-staging-64820/1a2bfb40-0d78-11ed-bf93-0ee9dd2fa71d",
+      "AmplifyAppId": "d2012o1zkge4f5"
+    },
+    "categories": {
+      "auth": {
+        "stripepaymentgateway718544e0": {}
+      }
+    }
+  }
+}
