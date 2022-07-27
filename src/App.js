@@ -1,9 +1,8 @@
 import Register from './Register';
 
-import { Amplify } from 'aws-amplify';
-import awsmobile from './aws-exports';
-Amplify.configure(awsmobile);
-
+import Amplify from 'aws-amplify';
+import config from './aws-exports';
+Amplify.configure(config);
 
 function App() {
   return (

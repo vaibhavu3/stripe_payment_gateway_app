@@ -3,9 +3,7 @@ import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icon
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import axios from './api/axios';
 import axios from "axios";
-import { Amplify, Auth } from 'aws-amplify';
-import awsmobile from './aws-exports';
-Amplify.configure(awsmobile);
+import { Auth } from 'aws-amplify';
 
 
 const CUSTOMER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
